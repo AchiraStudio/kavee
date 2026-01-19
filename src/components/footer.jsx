@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="container">
                 <div className="footer-grid">
                     <div className="footer-info">
-                        <h2>KAVEE.</h2>
+                        <h2>{siteConfig.brand.name}.</h2>
                         <div className="info-block">
                             <MapPin className="icon" size={20} />
                             <p>{siteConfig.contact.address}</p>
@@ -31,7 +31,7 @@ const Footer = () => {
                         </div>
 
                         <div className="socials">
-                            <a href="#" className="social-icon"><Instagram /></a>
+                            <a href="https://www.instagram.com/kavee.coffee?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="social-icon"><Instagram /></a>
                             <a href={siteConfig.contact.mapsLink} target="_blank" rel="noopener noreferrer" className="btn-primary small-btn">Petunjuk Arah</a>
                         </div>
                     </div>
@@ -51,7 +51,7 @@ const Footer = () => {
                 </div>
 
                 <div className="footer-bottom">
-                    <p>&copy; {new Date().getFullYear()} Achira Studios. Hak cipta dilindungi undang-undang.</p>
+                    <p>&copy; {new Date().getFullYear()} Achira Studios.</p>
                 </div>
             </div>
         </section>

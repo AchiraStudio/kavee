@@ -1,6 +1,6 @@
 export const siteConfig = {
     brand: {
-        name: "KAVEE",
+        name: "kavéé",
         tagline: "Jiwa Industrial, Hati Tropis.",
         description: "Tempat perlindungan dengan beton ekspos dan suasana hangat. Menyajikan kopi pilihan, mocktail artisan, dan perpaduan cita rasa Indonesia & Barat."
     },
