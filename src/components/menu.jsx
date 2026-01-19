@@ -153,43 +153,95 @@ const Menu = () => {
                         </div>
 
                         {/* --- GRID --- */}
-                        <motion.div
-                            className="menu-grid"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            key={activeTab + activeCategory} // Force re-render animation on change
-                        >
-                            <AnimatePresence mode='wait'>
-                                {getFilteredItems().map((item, index) => (
-                                    <motion.div
-                                        key={index} // Use unique ID if available, otherwise index (careful with reordering)
-                                        className="menu-card"
-                                        variants={itemVariants}
-                                        layout
-                                    >
-                                        <div className="card-image">
-                                            {item.image ? (
-                                                <img src={item.image} alt={item.name} loading="lazy" />
-                                            ) : (
-                                                // Fallback placeholder pattern
-                                                <div style={{ width: '100%', height: '100%', background: '#ddd', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
-                                                    No Image
-                                                </div>
-                                            )}
-                                            {item.bestSeller && <span className="best-seller-badge">Best Seller</span>}
-                                        </div>
+                        {activeCategory === 'All' ? (
+                            <div className="categories-list">
+                                {Object.entries(menuData[activeTab] || {}).map(([category, items]) => (
+                                    <div key={category} className="category-group">
+                                        <h3 className="category-title">{category}</h3>
+                                        <div className="menu-grid">
+                                            {items.map((item, index) => (
+                                                <motion.div
+                                                    key={index}
+                                                    className="menu-card"
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    viewport={{ once: true }}
+                                                >
+                                                    <div className="card-image">
+                                                        {item.image ? (
+                                                            <img
+                                                                src={item.image}
+                                                                alt={item.name}
+                                                                loading="lazy"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = "/menu_placeholder.png";
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <img src="/menu_placeholder.png" alt="Fallback" loading="lazy" />
+                                                        )}
+                                                        {item.bestSeller && <span className="best-seller-badge">Best Seller</span>}
+                                                        <span className="price-badge">{item.price}</span>
+                                                    </div>
 
-                                        <div className="card-content">
-                                            <h3>{item.name}</h3>
-                                            <div className="card-footer">
-                                                <span className="price">{item.price}</span>
-                                            </div>
+                                                    <div className="card-overlay">
+                                                        <div className="overlay-content">
+                                                            <h3>{item.name}</h3>
+                                                            <span className="overlay-price">{item.price}</span>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            ))}
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 ))}
-                            </AnimatePresence>
-                        </motion.div>
+                            </div>
+                        ) : (
+                            <motion.div
+                                className="menu-grid"
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                key={activeTab + activeCategory}
+                            >
+                                <AnimatePresence>
+                                    {getFilteredItems().map((item, index) => (
+                                        <motion.div
+                                            key={index}
+                                            className="menu-card"
+                                            variants={itemVariants}
+                                            layout
+                                        >
+                                            <div className="card-image">
+                                                {item.image ? (
+                                                    <img
+                                                        src={item.image}
+                                                        alt={item.name}
+                                                        loading="lazy"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = "/menu_placeholder.png";
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <img src="/menu_placeholder.png" alt="Fallback" loading="lazy" />
+                                                )}
+                                                {item.bestSeller && <span className="best-seller-badge">Best Seller</span>}
+                                                <span className="price-badge">{item.price}</span>
+                                            </div>
+
+                                            <div className="card-overlay">
+                                                <div className="overlay-content">
+                                                    <h3>{item.name}</h3>
+                                                    <span className="overlay-price">{item.price}</span>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </motion.div>
+                        )}
 
                         {getFilteredItems().length === 0 && (
                             <p style={{ textAlign: 'center', opacity: 0.6, marginTop: '2rem' }}>No items found in this category.</p>
